@@ -32,9 +32,6 @@ namespace LeilaoCarro.Migrations
                     b.Property<DateTime?>("DataHoraLeiloado")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("IdLance")
-                        .HasColumnType("INTEGER");
-
                     b.Property<decimal>("LanceInicial")
                         .HasColumnType("TEXT");
 
@@ -50,8 +47,6 @@ namespace LeilaoCarro.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdLance");
 
                     b.ToTable("Carro");
                 });
@@ -170,15 +165,6 @@ namespace LeilaoCarro.Migrations
                     b.ToTable("UsuarioEndereco");
                 });
 
-            modelBuilder.Entity("LeilaoCarro.Models.Carro", b =>
-                {
-                    b.HasOne("LeilaoCarro.Models.Lance", "Lance")
-                        .WithMany("Carros")
-                        .HasForeignKey("IdLance");
-
-                    b.Navigation("Lance");
-                });
-
             modelBuilder.Entity("LeilaoCarro.Models.Lance", b =>
                 {
                     b.HasOne("LeilaoCarro.Models.Carro", "Carro")
@@ -225,11 +211,6 @@ namespace LeilaoCarro.Migrations
             modelBuilder.Entity("LeilaoCarro.Models.Estado", b =>
                 {
                     b.Navigation("UsuarioEndereco");
-                });
-
-            modelBuilder.Entity("LeilaoCarro.Models.Lance", b =>
-                {
-                    b.Navigation("Carros");
                 });
 
             modelBuilder.Entity("LeilaoCarro.Models.Usuario", b =>

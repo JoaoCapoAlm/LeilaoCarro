@@ -11,14 +11,48 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeilaoCarro.Migrations
 {
     [DbContext(typeof(LeilaoContext))]
-    [Migration("20240823190311_CreateUsuarioEstadoTable")]
-    partial class CreateUsuarioEstadoTable
+    [Migration("20240824152240_CreateTables")]
+    partial class CreateTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+
+            modelBuilder.Entity("LeilaoCarro.Models.Carro", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<short?>("Ano")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DataHoraCadastrado")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DataHoraLeiloado")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("LanceInicial")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Modelo")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Placa")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carro");
+                });
 
             modelBuilder.Entity("LeilaoCarro.Models.Estado", b =>
                 {
@@ -38,6 +72,33 @@ namespace LeilaoCarro.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Estado");
+                });
+
+            modelBuilder.Entity("LeilaoCarro.Models.Lance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DataHoraLance")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IdCarro")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCarro");
+
+                    b.HasIndex("IdUsuario");
+
+                    b.ToTable("Lance");
                 });
 
             modelBuilder.Entity("LeilaoCarro.Models.Usuario", b =>
@@ -107,6 +168,25 @@ namespace LeilaoCarro.Migrations
                     b.ToTable("UsuarioEndereco");
                 });
 
+            modelBuilder.Entity("LeilaoCarro.Models.Lance", b =>
+                {
+                    b.HasOne("LeilaoCarro.Models.Carro", "Carro")
+                        .WithMany("Lances")
+                        .HasForeignKey("IdCarro")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LeilaoCarro.Models.Usuario", "Usuario")
+                        .WithMany("Lances")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carro");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("LeilaoCarro.Models.UsuarioEndereco", b =>
                 {
                     b.HasOne("LeilaoCarro.Models.Estado", "Estado")
@@ -116,7 +196,7 @@ namespace LeilaoCarro.Migrations
                         .IsRequired();
 
                     b.HasOne("LeilaoCarro.Models.Usuario", "Usuario")
-                        .WithMany("UsuarioEndereco")
+                        .WithMany("UsuarioEnderecos")
                         .HasForeignKey("IdUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -126,6 +206,11 @@ namespace LeilaoCarro.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("LeilaoCarro.Models.Carro", b =>
+                {
+                    b.Navigation("Lances");
+                });
+
             modelBuilder.Entity("LeilaoCarro.Models.Estado", b =>
                 {
                     b.Navigation("UsuarioEndereco");
@@ -133,7 +218,9 @@ namespace LeilaoCarro.Migrations
 
             modelBuilder.Entity("LeilaoCarro.Models.Usuario", b =>
                 {
-                    b.Navigation("UsuarioEndereco");
+                    b.Navigation("Lances");
+
+                    b.Navigation("UsuarioEnderecos");
                 });
 #pragma warning restore 612, 618
         }

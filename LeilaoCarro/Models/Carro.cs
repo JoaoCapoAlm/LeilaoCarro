@@ -16,8 +16,6 @@ namespace LeilaoCarro.Models
         public DateTime? DataHoraLeiloado { get; set; }
         [Required]
         public decimal LanceInicial { get; set; }
-        public int? IdLance { get; set; }
-        public virtual Lance? Lance { get; set; }
         public DateTime DataHoraCadastrado { get; set; }
         public virtual IEnumerable<Lance> Lances { get; set; }
     }

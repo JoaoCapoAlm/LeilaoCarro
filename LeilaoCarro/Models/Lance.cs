@@ -17,6 +17,5 @@ namespace LeilaoCarro.Models
         public decimal Valor { get; set; }
         [Required]
         public DateTime DataHoraLance { get; set; }
-        public virtual IEnumerable<Carro> Carros { get; set; }
     }
 }

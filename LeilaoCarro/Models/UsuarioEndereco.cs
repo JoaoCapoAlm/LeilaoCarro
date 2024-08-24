@@ -7,12 +7,12 @@ namespace LeilaoCarro.Models
     {
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required, ForeignKey("Usuario")]
+        [Required]
         public int IdUsuario { get; set; }
         public virtual Usuario Usuario { get; set; }
         [Required, MaxLength(8)]
         public required string Cep { get; set; }
-        [Required, ForeignKey("Estado")]
+        [Required]
         public byte IdEstado { get; set; }
         public virtual Estado Estado { get; set; }
         [Required]

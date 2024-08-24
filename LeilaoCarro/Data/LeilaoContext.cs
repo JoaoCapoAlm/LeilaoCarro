@@ -13,11 +13,6 @@ namespace LeilaoCarro.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Carro>()
-                .HasOne(x => x.Lance)
-                .WithMany(x => x.Carros)
-                .HasForeignKey(x => x.IdLance);
-
             modelBuilder.Entity<Lance>()
                 .HasOne(x => x.Carro)
                 .WithMany(x => x.Lances)
