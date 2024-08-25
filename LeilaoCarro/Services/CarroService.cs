@@ -16,7 +16,7 @@ namespace LeilaoCarro.Services
         {
             return await _context.Carro
                 .AsNoTracking()
-                .Where(x => x.Id.Equals(id))
+                .Where(x => x.Id.Equals(id) && !x.DataDeletado.HasValue)
                 .Select(x => x.CarroToVM())
                 .FirstOrDefaultAsync();
         }
@@ -25,6 +25,7 @@ namespace LeilaoCarro.Services
         {
             return await _context.Carro
                 .AsNoTracking()
+                .Where(x => !x.DataDeletado.HasValue)
                 .Select(x => x.CarroToVM())
                 .ToListAsync();
         }
@@ -47,6 +48,12 @@ namespace LeilaoCarro.Services
             await _context.SaveChangesAsync();
 
             return carro.Entity.CarroToVM();
+        }
+
+        public async Task DeletarAsync(int id)
+        {
+            await _context.Carro.Where(x => x.Id.Equals(id))
+                .ExecuteUpdateAsync(x => x.SetProperty(y => y.DataDeletado, DateTime.Now));
         }
     }
 }

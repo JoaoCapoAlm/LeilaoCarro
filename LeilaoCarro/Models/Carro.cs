@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeilaoCarro.Models
@@ -17,6 +18,7 @@ namespace LeilaoCarro.Models
         [Required]
         public decimal LanceInicial { get; set; }
         public DateTime DataHoraCadastrado { get; set; }
+        public DateTime? DataDeletado { get; set; }
         public virtual IEnumerable<Lance> Lances { get; set; }
     }
 }

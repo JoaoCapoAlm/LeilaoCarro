@@ -42,5 +42,28 @@ namespace LeilaoCarro.Controllers
             var carros = await _carroService.ListarAsync();
             return Ok(carros);
         }
+
+        /// <summary>
+        /// Cadastrar um novo carro no sistema
+        /// </summary>
+        /// <param name="dto">Dados do carro</param>
+        [HttpPost]
+        public async Task<IActionResult> CriarAsync([FromBody] NovoCarroDTO dto)
+        {
+            var carro = await _carroService.CriarAssync(dto);
+            return Ok(carro);
+        }
+
+        /// <summary>
+        /// Excluir carro do sistema
+        /// </summary>
+        /// <param name="id">ID do carro a ser excluído</param>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> DeletarAsync([FromRoute] int id)
+        {
+            await _carroService.DeletarAsync(id);
+            return NoContent();
+        }
     }
 }
