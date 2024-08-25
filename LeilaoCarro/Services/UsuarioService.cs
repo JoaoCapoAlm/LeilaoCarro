@@ -1,9 +1,11 @@
-﻿using LeilaoCarro.Data;
+﻿using FluentValidation;
+using LeilaoCarro.Data;
 using LeilaoCarro.Data.DTO;
 using LeilaoCarro.Data.ViewModels;
 using LeilaoCarro.Enums;
 using LeilaoCarro.Helpers;
 using LeilaoCarro.Models;
+using LeilaoCarro.Validations;
 using Microsoft.EntityFrameworkCore;
 
 namespace LeilaoCarro.Services
@@ -24,12 +26,15 @@ namespace LeilaoCarro.Services
 
         public async Task<int> AddUsuario(NovoUsuarioDTO dto)
         {
+            var validador = new UsuarioValidation();
+            validador.ValidateAndThrowApp(dto, "Não foi possível criar o usuário");
+
+            var cepReplaced = dto.Cep.Replace(".", "").Replace("-", "");
             var cepHelper = new CepHelper();
-            var cepInfo = await cepHelper.GetCepAsync(dto.Cep);
+            var cepInfo = await cepHelper.GetCepAsync(cepReplaced);
+            
             if (!string.IsNullOrWhiteSpace(cepInfo.erro) && cepInfo.erro == "true")
-            {
                 throw new ArgumentException("CEP inválido!");
-            }
 
             EstadoEnum estado = (EstadoEnum)Enum.Parse(typeof(EstadoEnum), cepInfo.uf ?? "");
 
@@ -47,7 +52,7 @@ namespace LeilaoCarro.Services
                 var endereco = new UsuarioEndereco()
                 {
                     IdUsuario = usuario.Entity.Id,
-                    Cep = dto.Cep,
+                    Cep = cepReplaced,
                     IdEstado = (byte)estado,
                     Cidade = cepInfo.localidade ?? "",
                     Logradouro = cepInfo.logradouro ?? "",

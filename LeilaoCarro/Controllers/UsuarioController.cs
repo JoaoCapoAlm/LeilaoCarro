@@ -9,6 +9,7 @@ namespace LeilaoCarro.Controllers
     [ApiController]
     [Produces("application/json")]
     [Consumes("application/json")]
+    [ProducesErrorResponseType(typeof(ExceptionVM))]
     public class UsuarioController(UsuarioService usuarioService) : ControllerBase
     {
         private readonly UsuarioService _usuarioService = usuarioService;
@@ -32,6 +33,7 @@ namespace LeilaoCarro.Controllers
         
         [HttpPost]
         [ProducesResponseType(typeof(UsuarioVM), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] NovoUsuarioDTO dto)
         {
             var id = await _usuarioService.AddUsuario(dto);

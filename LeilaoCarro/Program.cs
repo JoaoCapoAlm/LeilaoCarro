@@ -1,5 +1,6 @@
 using System.Reflection;
 using LeilaoCarro.Data;
+using LeilaoCarro.Middlewares;
 using LeilaoCarro.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -26,7 +27,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
-
+app.UseExceptionMiddleware();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
