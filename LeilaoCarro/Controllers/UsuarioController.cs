@@ -30,7 +30,7 @@ namespace LeilaoCarro.Controllers
             return Ok(user);
         }
 
-        
+
         [HttpPost]
         [ProducesResponseType(typeof(UsuarioVM), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

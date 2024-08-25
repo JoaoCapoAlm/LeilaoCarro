@@ -12,7 +12,7 @@ namespace LeilaoCarro.Validations
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .WithMessage("O CEP é obrigatório")
-                .Matches("^\\d{2}(.?)\\d{3}(-?)\\d{3}$")
+                .Matches(@"^\d{2}(.?)\d{3}(-?)\d{3}$")
                 .WithMessage("CEP inválido");
 
             RuleFor(x => x.DataNascimento)

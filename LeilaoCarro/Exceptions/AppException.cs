@@ -1,5 +1,5 @@
-﻿using FluentValidation.Results;
-using System.Net;
+﻿using System.Net;
+using FluentValidation.Results;
 
 namespace LeilaoCarro.Exceptions
 {

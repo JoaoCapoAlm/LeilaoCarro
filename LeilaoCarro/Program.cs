@@ -13,6 +13,7 @@ builder.Services.AddDbContext<LeilaoContext>(options =>
     options.UseSqlite("Data Source=Data/leilao.db");
 });
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.TryAddScoped<CarroService>();
 builder.Services.TryAddScoped<UsuarioService>();
 builder.Services.AddSwaggerGen(options =>
 {

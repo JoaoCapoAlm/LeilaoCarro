@@ -32,7 +32,7 @@ namespace LeilaoCarro.Services
             var cepReplaced = dto.Cep.Replace(".", "").Replace("-", "");
             var cepHelper = new CepHelper();
             var cepInfo = await cepHelper.GetCepAsync(cepReplaced);
-            
+
             if (!string.IsNullOrWhiteSpace(cepInfo.erro) && cepInfo.erro == "true")
                 throw new ArgumentException("CEP inválido!");
 
