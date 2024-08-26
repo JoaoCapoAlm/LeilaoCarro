@@ -35,4 +35,4 @@ Caso queira rodar o projeto localmente, já haverá um banco de dados SQLite con
   - leilao.db-shm
   - leilao.db-wal
 - No prompt de comando ou PowerShell rodar o seguinte script
-  - `dotnet ef database update`
+  - `dotnet ef database update --project LeilaoCarro`
