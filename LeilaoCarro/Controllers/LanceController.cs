@@ -16,10 +16,9 @@ namespace LeilaoCarro.Controllers
         private readonly LanceService _lanceService = lanceService;
 
         /// <summary>
-        /// 
+        /// Realizar um novo lance
         /// </summary>
         /// <param name="dto"></param>
-        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(LanceCompletoVM), StatusCodes.Status200OK)]
         public async Task<IActionResult> AdicionarAsync([FromBody] NovoLanceDTO dto)
