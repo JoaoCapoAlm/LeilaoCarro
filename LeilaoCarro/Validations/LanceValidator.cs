@@ -72,7 +72,7 @@ namespace LeilaoCarro.Validations
                         .FirstOrDefaultAsync(cancellationToken);
 
                     return valor >= lanceInicial;
-                }).When(x => carroInapto)
+                }).When(x => !carroInapto)
                 .WithMessage("Já existe um lance maior");
         }
     }

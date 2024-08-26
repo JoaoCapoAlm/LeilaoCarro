@@ -9,7 +9,7 @@ namespace LeilaoCarro.Jobs
     {
         private readonly LeilaoContext _context = context;
         private readonly EmailService _emailService = emailService;
-        public async Task    LeiloarCarros()
+        public async Task LeiloarCarros()
         {
             var carros = await _context.Carro
                 .Include(x => x.Lances)
