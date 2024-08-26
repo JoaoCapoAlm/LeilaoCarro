@@ -23,6 +23,7 @@ namespace LeilaoCarro.Controllers
         /// <param name="dto"></param>
         [HttpPost]
         [ProducesResponseType(typeof(LanceCompletoVM), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AdicionarAsync([FromBody] NovoLanceDTO dto)
         {
             var id = await _lanceService.AdicionarAsync(dto);

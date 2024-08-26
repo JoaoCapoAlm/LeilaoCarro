@@ -361,6 +361,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/LeilaoCarro/Data/leilao.db
-/LeilaoCarro/Data/leilao.db-shm
-/LeilaoCarro/Data/leilao.db-wal
