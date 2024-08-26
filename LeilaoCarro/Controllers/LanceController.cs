@@ -1,5 +1,7 @@
-﻿using LeilaoCarro.Data.DTO;
+﻿using System.Net;
+using LeilaoCarro.Data.DTO;
 using LeilaoCarro.Data.ViewModels;
+using LeilaoCarro.Exceptions;
 using LeilaoCarro.Models;
 using LeilaoCarro.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +53,7 @@ namespace LeilaoCarro.Controllers
         {
             var lance = await _lanceService.ObterAsync(id);
             if(lance is null)
-                return NotFound();
+                throw new AppException("Lance não encontrado", HttpStatusCode.NotFound);
 
             return Ok(lance);
         }

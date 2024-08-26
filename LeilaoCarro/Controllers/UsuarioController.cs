@@ -1,5 +1,6 @@
 ﻿using LeilaoCarro.Data.DTO;
 using LeilaoCarro.Data.ViewModels;
+using LeilaoCarro.Exceptions;
 using LeilaoCarro.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace LeilaoCarro.Controllers
         {
             var user = await _usuarioService.BuscarAsync(id);
             if (user == null)
-                return NotFound();
+                throw new AppException("Usuário não encontrado", System.Net.HttpStatusCode.NotFound);
 
             return Ok(user);
         }
