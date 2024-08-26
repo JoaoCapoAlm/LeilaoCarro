@@ -33,6 +33,13 @@ namespace LeilaoCarro.Validations
                 .Must((dto, documento) => DocumentoHelper.IsCpfValido(documento))
                 .WithMessage("Documento inválido");
 
+            RuleFor(x => x.Email)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .WithMessage("E-mail obrigatório")
+                .EmailAddress()
+                .WithMessage("E-mail inválido");
+
             RuleFor(x => x.Nome)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()

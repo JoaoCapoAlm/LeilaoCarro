@@ -3,7 +3,6 @@ using FluentValidation;
 using LeilaoCarro.Data;
 using LeilaoCarro.Data.DTO;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace LeilaoCarro.Validations
 {

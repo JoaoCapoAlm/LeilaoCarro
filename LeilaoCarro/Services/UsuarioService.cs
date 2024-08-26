@@ -3,6 +3,7 @@ using LeilaoCarro.Data;
 using LeilaoCarro.Data.DTO;
 using LeilaoCarro.Data.ViewModels;
 using LeilaoCarro.Enums;
+using LeilaoCarro.Exceptions;
 using LeilaoCarro.Helpers;
 using LeilaoCarro.Models;
 using LeilaoCarro.Validations;
@@ -29,14 +30,14 @@ namespace LeilaoCarro.Services
             var validador = new UsuarioValidation();
             validador.ValidateAndThrowApp(dto, "Não foi possível criar o usuário");
 
-            var cepReplaced = dto.Cep.Replace(".", "").Replace("-", "");
+            var cepReplaced = dto.Cep.Replace(".", string.Empty).Replace("-", string.Empty);
             var cepHelper = new CepHelper();
             var cepInfo = await cepHelper.GetCepAsync(cepReplaced);
 
             if (!string.IsNullOrWhiteSpace(cepInfo.erro) && cepInfo.erro == "true")
                 throw new ArgumentException("CEP inválido!");
 
-            EstadoEnum estado = (EstadoEnum)Enum.Parse(typeof(EstadoEnum), cepInfo.uf ?? "");
+            EstadoEnum estado = (EstadoEnum)Enum.Parse(typeof(EstadoEnum), cepInfo.uf ?? string.Empty);
 
             await _context.Database.BeginTransactionAsync();
             try
@@ -45,6 +46,7 @@ namespace LeilaoCarro.Services
                 {
                     DataNascimento = dto.DataNascimento,
                     Documento = dto.Documento,
+                    Email = dto.Email,
                     Nome = dto.Nome
                 });
                 await _context.SaveChangesAsync();
@@ -67,19 +69,11 @@ namespace LeilaoCarro.Services
                 await _context.Database.CommitTransactionAsync();
 
                 return usuario.Entity.Id;
-
-                //return await _context.Usuario.AsNoTracking()
-                //    .Where(x => x.Id.Equals(usuario.Entity.Id))
-                //    .Include(x => x.UsuarioEnderecos)
-                //    .ThenInclude(x => x.Estado)
-                //    .Select(x => x.UsuarioToVM())
-                //    .FirstAsync();
             }
             catch (Exception ex)
             {
                 await _context.Database.RollbackTransactionAsync();
-                Console.WriteLine(ex.Message + ex.InnerException?.Message);
-                throw;
+                throw new AppException("Não foi possível criar o usuário", ex, System.Net.HttpStatusCode.InternalServerError);
             }
         }
     }

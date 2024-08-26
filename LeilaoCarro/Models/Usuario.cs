@@ -11,6 +11,7 @@ namespace LeilaoCarro.Models
         public required string Nome { get; set; }
         [Required, MaxLength(14)]
         public required string Documento { get; set; }
+        public string? Email { get; set; }
         public DateOnly? DataNascimento { get; set; }
         public virtual IEnumerable<Lance> Lances { get; set; }
         public virtual IEnumerable<UsuarioEndereco> UsuarioEnderecos { get; set; }

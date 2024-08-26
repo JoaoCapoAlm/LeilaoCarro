@@ -6,6 +6,7 @@ namespace LeilaoCarro.Data.ViewModels
         int Id,
         string Nome,
         string Documento,
+        string? Email,
         DateOnly? DataNascimento,
         EnderecoVM[] Endereco
     );
@@ -18,6 +19,7 @@ namespace LeilaoCarro.Data.ViewModels
                 usuario.Id,
                 usuario.Nome,
                 usuario.Documento,
+                usuario.Email,
                 usuario.DataNascimento,
                 usuario.UsuarioEnderecos.Select(x => x.EnderecoToVM()).ToArray()
             );
