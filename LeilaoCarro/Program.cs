@@ -1,6 +1,11 @@
 using System.Reflection;
+using Hangfire;
+using Hangfire.SQLite;
 using LeilaoCarro.Data;
+using LeilaoCarro.Interfaces;
+using LeilaoCarro.Jobs;
 using LeilaoCarro.Middlewares;
+using LeilaoCarro.Models;
 using LeilaoCarro.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -10,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<LeilaoContext>(options =>
 {
-    options.UseSqlite("Data Source=Data/leilao.db");
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlitePath"));
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.TryAddScoped<CarroService>();
@@ -28,6 +33,14 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
 });
 
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddHangfire(configuration => configuration
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSQLiteStorage(builder.Configuration.GetConnectionString("sqlitePath")));
+
+builder.Services.AddHangfireServer();
+
 var app = builder.Build();
 app.UseExceptionMiddleware();
 if (app.Environment.IsDevelopment())
@@ -43,4 +56,16 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseHangfireDashboard();
+
+var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
+
+// Agendar o job para enviar o e-mail todo dia às 8 horas da manhã
+recurringJobManager.AddOrUpdate<LeiloarCarroJob>(
+    "finalizar-lances",
+    emailService => emailService.LeiloarCarros(),
+    "0 8 * * *"
+);
+
 app.Run();
