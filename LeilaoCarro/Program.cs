@@ -14,6 +14,7 @@ builder.Services.AddDbContext<LeilaoContext>(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.TryAddScoped<CarroService>();
+builder.Services.TryAddScoped<LanceService>();
 builder.Services.TryAddScoped<UsuarioService>();
 builder.Services.AddSwaggerGen(options =>
 {

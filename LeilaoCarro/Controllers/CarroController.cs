@@ -48,6 +48,7 @@ namespace LeilaoCarro.Controllers
         /// </summary>
         /// <param name="dto">Dados do carro</param>
         [HttpPost]
+        [ProducesResponseType(typeof(CarroVM), StatusCodes.Status200OK)]
         public async Task<IActionResult> CriarAsync([FromBody] NovoCarroDTO dto)
         {
             var carro = await _carroService.CriarAssync(dto);
