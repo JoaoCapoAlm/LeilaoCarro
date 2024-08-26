@@ -15,7 +15,13 @@ namespace LeilaoCarro.Controllers
     {
         private readonly LanceService _lanceService = lanceService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(LanceCompletoVM), StatusCodes.Status200OK)]
         public async Task<IActionResult> AdicionarAsync([FromBody] NovoLanceDTO dto)
         {
             var id = await _lanceService.AdicionarAsync(dto);
@@ -23,6 +29,10 @@ namespace LeilaoCarro.Controllers
             return Ok(lance);
         }
 
+        /// <summary>
+        /// Buscar listagem de lances realizados em um carro espefico
+        /// </summary>
+        /// <param name="id">ID do carro</param>
         [HttpGet("carro/{id:int}")]
         [ProducesResponseType(typeof(IEnumerable<LanceCompletoVM>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListarPorCarro(int id)
@@ -31,6 +41,10 @@ namespace LeilaoCarro.Controllers
             return Ok(lances);
         }
 
+        /// <summary>
+        /// Buscar um lance especifico
+        /// </summary>
+        /// <param name="id">ID do lance</param>
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(LanceCompletoVM), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -30,7 +30,10 @@ namespace LeilaoCarro.Controllers
             return Ok(user);
         }
 
-
+        /// <summary>
+        /// Criar novo usuario
+        /// </summary>
+        /// <param name="dto">Dados do usuario</param>
         [HttpPost]
         [ProducesResponseType(typeof(UsuarioVM), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
